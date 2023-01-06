@@ -10,6 +10,31 @@ def split(list_a, chunk_size):
   for i in range(0, len(list_a), chunk_size):
     yield list_a[i:i + chunk_size]
 
+def showclientcars(clientID):
+    print(clientID)
+    
+    car = con.cursor()
+    car.execute('''SELECT DISTINCT Αυτοκίνητο.Μάρκα, Αυτοκίνητο.Μοντέλο
+                    FROM   (Αυτοκίνητο JOIN Παρέχει ON Αυτοκίνητο.ID = Παρέχει.ID_αυτοκινήτου) JOIN Ενοικίαση ON Παρέχει.ID_ενοικίασης = Ενοικίαση.ID
+                    WHERE  Ενοικίαση.ID_πελάτη = '%s';''' % clientID)
+    chunk_size = 1
+    Carlist = list(split(car.fetchall(), chunk_size))
+    layout = [  [sg.Text('Όλα τα διαθέσιμα αυτοκίνητα')],
+                [sg.Text('Μάρκα | Μοντέλο')],
+                [sg.Listbox(Carlist, no_scrollbar=False,  size=(20, 20), key='LISTBOX')],
+            ]
+
+    # Create the Window
+    window = sg.Window('Αυτοκίνητα πελάτη', layout)
+    
+    while True:
+        event, values = window.read(timeout=500)
+        if event == sg.WIN_CLOSED or event == 'Cancel': # if user closes window or clicks cancel
+            break
+        
+    con.close()	
+
+    window.close()
 
 def UpdateClientvalues(ClientID):
     print(ClientID)
@@ -684,7 +709,7 @@ def showClient(value):
             ClientCrash(value)
             print('crashes')
         if event == 'Αυτοκίνητα':
-            ClientCars(value)
+            showclientcars(value)
     	
     window.close()
 

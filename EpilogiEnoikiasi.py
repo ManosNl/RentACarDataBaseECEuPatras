@@ -10,6 +10,112 @@ def split(list_a, chunk_size):
   for i in range(0, len(list_a), chunk_size):
     yield list_a[i:i + chunk_size]
 
+def CalculateCost(RentID):
+    
+    print(RentID)
+    
+    cost = con.cursor()
+    cost.execute('''SELECT (julianday(Ενοικίαση.ΠραγματΗμΠαραδ) - julianday(Ενοικίαση.ΠραγματΗμΠαραλ)) * Τύπος_Οχήματος.ΗμερήσιοΚόστος AS car_cost, (julianday(Ενοικίαση.ΠραγματΗμΠαραδ) - julianday(Ενοικίαση.ΠραγματΗμΠαραλ)) * Ασφάλεια.Κόστος_ανα_μέρα AS ins_cost, Ενοικίαση.Έκπτωση
+                    FROM   (Ενοικίαση JOIN Τύπος_Οχήματος ON Ενοικίαση.ID_Κατ_Αυτοκ = Τύπος_Οχήματος.ID) JOIN Ασφάλεια ON Ενοικίαση.Όνομα_Aσφάλειας = Ασφάλεια.ID
+                    WHERE  Ενοικίαση.ID = '%s';''' % RentID)
+    
+    reg_cost = cost.fetchall()
+    
+    
+
+    dam_test = con.cursor()
+    dam_test.execute('''SELECT count(*)
+                        FROM   Ζημιά
+                        WHERE  Ζημιά.ID_Ενοικίαση = '%s';''' % RentID)
+    damage_test = dam_test.fetchall()
+    if damage_test[0][0] != 0:
+        dam_cost = con.cursor()
+        dam_cost.execute('''SELECT SUM(Ζημιά.Κόστος)
+                            FROM   Ζημιά
+                            WHERE  Ζημιά.ID_Ενοικίαση = '%s';''' % RentID)
+        damage_cost = dam_cost.fetchall()[0][0]
+    else:
+        damage_cost = 0
+    
+    fnd_cost = reg_cost[0][0] + reg_cost[0][1] 
+    f_cost = fnd_cost - (fnd_cost * (reg_cost[0][2]/100)) + damage_cost
+
+    layout = [  [sg.Text('Το τελικό κόστος είναι:')],
+                [sg.Text('Κόστος αυτοκινήτου: %s €' % reg_cost[0][0])],
+                [sg.Text('Κόστος ασφάλειας: %s €' % reg_cost[0][1])],
+                [sg.Text('Έκπτωση: %s τις εκατό' % reg_cost[0][2])],
+                [sg.Text('Κόστος Ζημιών: %s €' % damage_cost)],
+                [sg.Text('Τελικό Κόστος: %s €' % f_cost)],
+                [sg.Text('Αν το τελικό κόστος είναι εντάξει πατήστε OK')],
+                [sg.Button('Ok'), sg.Button('Cancel')] ]
+
+    
+
+    # Create the Window
+    window = sg.Window('Κόστος', layout)
+    
+    while True:
+        event, values = window.read(timeout=500)
+        if event == sg.WIN_CLOSED or event == 'Cancel': # if user closes window or clicks cancel
+            break
+        if event == 'Ok':
+            con.execute('''UPDATE Ενοικίαση 
+                       SET  Κόστος = '%s'
+                       WHERE  Ενοικίαση.ID = '%s';''' % (f_cost, RentID))		
+            today = date.today()
+            dtoday = today.strftime("%Y-%m-%d")		
+            test = con.execute('''SELECT COUNT(*)
+                                FROM Οικ_Συναλλαγή
+                                WHERE Οικ_Συναλλαγή.ID_Ενοικίασης = '%s';''' % RentID)	
+            
+            ex_test = test.fetchall()
+            if ex_test[0][0] == 0:		
+                print('it created new entry')
+                con.execute('''INSERT INTO Οικ_Συναλλαγή(Ποσό, Ημερομηνία, ΦΠΑ, ID_Ενοικίασης) 
+                            VALUES (?, ?, ?, ?);''', (f_cost, dtoday, '24%', RentID))								
+                rec = con.execute('''SELECT Οικ_Συναλλαγή.ID
+                        FROM   Οικ_Συναλλαγή
+                        WHERE  Οικ_Συναλλαγή.ID_Ενοικίασης = '%s';''' % RentID)
+                
+                layout1 = [ [sg.Text('Απόδειξη: %s' % rec.fetchall()[0][0])],
+                            [sg.Text('Τελικό κόστος: %s €' % f_cost)],
+                            [sg.Text('ΦΠΑ: 24%')],
+                            [sg.Text('Ημερομηνία: %s' % dtoday)],
+                            [sg.Text('ID Ενοικίασης: %s' % RentID)],]
+                # Create the Window
+                window = sg.Window('Απόδειξη', layout1)
+                while True:
+                    event, values = window.read(timeout=500)
+                    if event == sg.WIN_CLOSED:
+                        break
+            else:		
+                print('it updated')
+                con.execute('''UPDATE Οικ_Συναλλαγή SET Ποσό = '%i', Ημερομηνία = '%s'
+                            WHERE Οικ_Συναλλαγή.ID_Ενοικίασης = '%s';''' % (f_cost, dtoday, RentID))								
+                rec = con.execute('''SELECT Οικ_Συναλλαγή.ID
+                        FROM   Οικ_Συναλλαγή
+                        WHERE  Οικ_Συναλλαγή.ID_Ενοικίασης = '%s';''' % RentID)
+                
+                layout1 = [ [sg.Text('Απόδειξη: %s' % rec.fetchall()[0][0])],
+                            [sg.Text('Τελικό κόστος: %s €' % f_cost)],
+                            [sg.Text('ΦΠΑ: 24%')],
+                            [sg.Text('Ημερομηνία: %s' % dtoday)],
+                            [sg.Text('ID Ενοικίασης: %s' % RentID)],]
+                            
+                # Create the Window
+                window = sg.Window('Απόδειξη', layout1)
+                while True:
+                    event, values = window.read(timeout=500)
+                    if event == sg.WIN_CLOSED:
+                        break
+            
+
+        con.commit()
+    
+    con.close()	
+
+    window.close()
+
 def Updatevalues(RentID, CarID):
     print(RentID)
     print(CarID)
@@ -312,7 +418,8 @@ def showRent(value):
                 [sg.Text('Κατάστημα Παράδωσης: %s' % Give_Shop[0][1])],
                 [sg.Text('Τηλ. Καταστήματος: %s' % Give_Shop[0][2])],
                 [sg.Text('Κόστος: %s€' % Rent_info[0][14])],
-                
+                [sg.Button('Υπολόγησε Κόστος')],
+
                 [sg.Text('Αυτοκίνητο')],
                 [sg.Text('Μάρκα: %s' % CarT[0][1])],
                 [sg.Text('Μοντέλο: %s' % CarT[0][2])],
@@ -340,7 +447,14 @@ def showRent(value):
             CarType(Rent_info[0][11])
         if event == 'Αυτοκίνητο':
             Car(Give_Car[0][3])
-    	
+        if event == 'Υπολόγησε Κόστος':
+            if not Rent_info[0][3] or not Rent_info[0][4] :
+                print('Λείπουν οι πραγματικές ημερομηνίες παραλλαβής και παράδωσης')
+                break
+            else:
+                CalculateCost(value)
+
+
     window.close()
 
 def todayRent():
