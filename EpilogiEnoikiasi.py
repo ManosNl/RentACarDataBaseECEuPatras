@@ -2,9 +2,9 @@ import sqlite3
 import PySimpleGUI as sg
 from random import choice
 from datetime import date
-#test
+
 con = sqlite3.connect("Car_Rent.sqlite")
-#test
+
 def split(list_a, chunk_size):
 
   for i in range(0, len(list_a), chunk_size):
