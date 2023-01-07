@@ -945,12 +945,11 @@ def CalculateCost(RentID):
 def todayRent():
    
     Rent = con.cursor()
-    today = date.today()
-    dtoday = today.strftime("%Y-%m-%d")
+    
     Rent.execute('''SELECT Ενοικίαση.ID, Πελάτης.όνομα, Πελάτης.Επίθετο, Ενοικίαση.ΗμΠαραλαβής
                     FROM   Πελάτης JOIN Ενοικίαση ON Πελάτης.ID = Ενοικίαση.ID_πελάτη
-                    WHERE  Ενοικίαση.ΗμΠαραλαβής = %s;''' % dtoday) 
-    print(dtoday)
+                    WHERE  date(Ενοικίαση.ΗμΠαραλαβής) = date('now');''') 
+    
     chunk_size = 1
     Rentlist = list(split(Rent.fetchall(), chunk_size))
 
