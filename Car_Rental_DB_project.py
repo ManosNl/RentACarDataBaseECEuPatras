@@ -3,7 +3,7 @@ import PySimpleGUI as sg
 from random import choice
 from datetime import date
 
-con = sqlite3.connect("Car_Rent_all.sqlite")
+con = sqlite3.connect("Car_Rent_DB.sqlite")
 
 
 def ImportClient():
