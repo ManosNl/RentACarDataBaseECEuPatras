@@ -3,7 +3,7 @@ import PySimpleGUI as sg
 from random import choice
 from datetime import date
 
-con = sqlite3.connect("Car_Rent.sqlite")
+con = sqlite3.connect("Car_Rent_all.sqlite")
 
 
 def ImportClient():
@@ -467,55 +467,60 @@ def Updatevalues(RentID, CarID):
             print('ΧΛΜ πριν', values[12])
             print('ΧΛΜ μετά', values[13])
         
-        if values[0] == '':
-            values[0] = Rent_info[0][3]
-        if values[1] == '':
-            values[1] = Rent_info[0][4]
-        if values[2] == '':
-            values[2] = Rent_info[0][5]
-        if values[3] == '':
-            values[3] = Rent_info[0][6]
-        if values[4] == '':
-            values[4] = Rent_info[0][7]
-        if values[5] == '':
-            values[5] = Rent_info[0][8]
-        if values[6] == '':
-            values[6] = Rent_info[0][9]
-        if values[7] == '':
-            values[7] = Rent_info[0][10]
-        if values[8] == '':
-            values[8] = Rent_info[0][11]
-        if values[9] == '':
-            values[9] = Rent_info[0][12]
-        if values[10] == '':
-            values[10] = Rent_info[0][13]
-        if values[11] == '':
-            values[11] = Give_Car[0][3]
-        if values[12] == '':
-            values[12] = Give_Car[0][1]
-        if values[13] == '':
-            values[13] = Give_Car[0][0]
+            if values[0] == '':
+                values[0] = Rent_info[0][3]
+            if values[1] == '':
+                values[1] = Rent_info[0][4]
+            if values[2] == '':
+                values[2] = Rent_info[0][5]
+            if values[3] == '':
+                values[3] = Rent_info[0][6]
+            if values[4] == '':
+                values[4] = Rent_info[0][7]
+            if values[5] == '':
+                values[5] = Rent_info[0][8]
+            if values[6] == '':
+                values[6] = Rent_info[0][9]
+            if values[7] == '':
+                values[7] = Rent_info[0][10]
+            if values[8] == '':
+                values[8] = Rent_info[0][11]
+            if values[9] == '':
+                values[9] = Rent_info[0][12]
+            if values[10] == '':
+                values[10] = Rent_info[0][13]
+            if values[11] == '':
+                values[11] = Give_Car[0][3]
+            if values[12] == '':
+                values[12] = Give_Car[0][1]
+            if values[13] == '':
+                values[13] = Give_Car[0][0]
 
-        con.execute('''UPDATE Ενοικίαση 
-                       SET  ΠραγματΗμΠαραλ = '%s', 
-                            ΠραγματΗμΠαραδ = '%s', 
-                            Ημ_Ακύρωσης = '%s', 
-                            ΗμΠαραλαβής = '%s', 
-                            ΗμΠαράδοσης = '%s', 
-                            Έκπτωση = '%s', 
-                            ID_πελάτη = '%s', 
-                            Όνομα_Aσφάλειας = '%s', 
-                            ID_Κατ_Αυτοκ = '%s', 
-                            Παραλ_ID_Καταστ = '%s', 
-                            Παραδ_ID_Καταστ = '%s'
-                       WHERE  Ενοικίαση.ID = '%s';''' % (values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8], values[9], values[10], RentID))								
-        con.execute('''UPDATE Παρέχει 
-                       SET  Χλμ_μετά = '%s', 
-                            Χλμ_πριν = '%s', 
-                            ID_αυτοκινήτου = '%s'
-                       WHERE  Παρέχει.ID_ενοικίασης = '%s';''' % (values[13], values[12], values[11], RentID))								
-        
-        con.commit()	
+            con.execute('''UPDATE Ενοικίαση 
+                        SET  ΠραγματΗμΠαραλ = '%s', 
+                                ΠραγματΗμΠαραδ = '%s', 
+                                Ημ_Ακύρωσης = '%s', 
+                                ΗμΠαραλαβής = '%s', 
+                                ΗμΠαράδοσης = '%s', 
+                                Έκπτωση = '%s', 
+                                ID_πελάτη = '%s', 
+                                Όνομα_Aσφάλειας = '%s', 
+                                ID_Κατ_Αυτοκ = '%s', 
+                                Παραλ_ID_Καταστ = '%s', 
+                                Παραδ_ID_Καταστ = '%s'
+                        WHERE  Ενοικίαση.ID = '%s';''' % (values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8], values[9], values[10], RentID))								
+            con.execute('''UPDATE Παρέχει 
+                        SET  Χλμ_μετά = '%s', 
+                                Χλμ_πριν = '%s', 
+                                ID_αυτοκινήτου = '%s'
+                        WHERE  Παρέχει.ID_ενοικίασης = '%s';''' % (values[13], values[12], values[11], RentID))								
+            
+            if int(values[13]) > int(CarT[0][3]):
+                con.execute('''UPDATE Αυτοκίνητο 
+                            SET Χλμ = '%s' 
+                            WHERE Αυτοκίνητο.ID = '%s';''' % (int(values[13]), int(values[11])))	
+
+            con.commit()	
     
 
     window.close()
