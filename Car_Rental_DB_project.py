@@ -156,7 +156,7 @@ def UpdateClientvalues(ClientID):
 
 
     # Create the Window
-    window = sg.Window('Ενοικίαση', layout)
+    window = sg.Window('Πελάτης', layout)
     
     # Event Loop to process "events" and get the "values" of the inputs
     while True:
@@ -250,7 +250,7 @@ def CarType(value):
 
 
     # Create the Window
-    window = sg.Window('Ενοικίαση', layout)
+    window = sg.Window('Τύπος Αυτοκινήτου', layout)
     
     # Event Loop to process "events" and get the "values" of the inputs
     while True:
@@ -542,7 +542,7 @@ def ClientRents(ClientID):
 
 
     # Create the Window
-    window = sg.Window('Εισάγετε Ενοικίαση', layout)
+    window = sg.Window('Ενοικίαση', layout)
     
     # Event Loop to process "events" and get the "values" of the inputs
     while True:
@@ -589,7 +589,7 @@ def Car(value):
 
 
     # Create the Window
-    window = sg.Window('Ενοικίαση', layout)
+    window = sg.Window('Αυτοκίνητο', layout)
     
     # Event Loop to process "events" and get the "values" of the inputs
     while True:
@@ -696,7 +696,7 @@ def showCrash(CrashID):
 
 
     # Create the Window
-    window = sg.Window('Ενοικίαση', layout)
+    window = sg.Window('Ζημιά', layout)
     
     # Event Loop to process "events" and get the "values" of the inputs
     while True:
@@ -727,7 +727,7 @@ def ClientCrash(ClientID):
 
 
     # Create the Window
-    window = sg.Window('Εισάγετε Ζημιά', layout)
+    window = sg.Window('Ζημιά', layout)
     
     # Event Loop to process "events" and get the "values" of the inputs
     while True:
@@ -777,7 +777,7 @@ def showClient(value):
 
 
     # Create the Window
-    window = sg.Window('Ενοικίαση', layout)
+    window = sg.Window('Πελάτης', layout)
     
     # Event Loop to process "events" and get the "values" of the inputs
     while True:
@@ -813,7 +813,7 @@ def allClients():
 
 
     # Create the Window
-    window = sg.Window('Εισάγετε Ενοικίαση', layout)
+    window = sg.Window('Πελάτες', layout)
     
     # Event Loop to process "events" and get the "values" of the inputs
     while True:
@@ -829,7 +829,7 @@ def allClients():
 def ChooseClient():
     sg.theme('DarkAmber')   # Add a touch of color
     layout = [ [sg.Button("Όλοι οι Πελάτες", key="open", size=(20,	1))]]
-    window = sg.Window("Main Window", layout)
+    window = sg.Window("Πελάτες", layout)
     while True:
         event, values = window.read()
         if event == "Exit" or event == sg.WIN_CLOSED:
@@ -967,7 +967,7 @@ def todayRent():
 
 
     # Create the Window
-    window = sg.Window('Εισάγετε Ενοικίαση', layout)
+    window = sg.Window('Ενοικίαση', layout)
     
     # Event Loop to process "events" and get the "values" of the inputs
     while True:
@@ -997,7 +997,7 @@ def allRent():
 
 
     # Create the Window
-    window = sg.Window('Εισάγετε Ενοικίαση', layout)
+    window = sg.Window('Ενοικίαση', layout)
     
     # Event Loop to process "events" and get the "values" of the inputs
     while True:
@@ -1014,7 +1014,7 @@ def ChooseRental():
     sg.theme('DarkAmber')   # Add a touch of color
     layout = [  [sg.Button("Ενοικιάσεις Ημέρας", key="opentoday", size=(20,	1))], 
                 [sg.Button("Όλες οι ενοικιάσεις", key="open", size=(20,	1))]]
-    window = sg.Window("Main Window", layout)
+    window = sg.Window("Ενοικίαση", layout)
     while True:
         event, values = window.read()
         if event == "Exit" or event == sg.WIN_CLOSED:
@@ -1534,7 +1534,7 @@ def main():
                 [sg.Button("Επιλογή Ενοικίασης", key="ChooseRental", size=(40,	1))], 
                 [sg.Button("Στατιστικά", key="Statistics", size=(40,	1))], 
                 [sg.Button("Cancel", key="exit", size=(40,	1))]]
-    window = sg.Window("Main Window", layout)
+    window = sg.Window("Main Menu", layout)
     while True:
         event, values = window.read()
         if event == "Exit" or event == sg.WIN_CLOSED:
