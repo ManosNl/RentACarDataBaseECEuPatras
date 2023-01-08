@@ -177,48 +177,48 @@ def UpdateClientvalues(ClientID):
             print('Διέυθνυση μόνιμης κατοικίας', values[10])
             print('Status', values[11])
         
-        if values[0] == '':
-            values[0] = Rent_info[0][1]
-        if values[1] == '':
-            values[1] = Rent_info[0][2]
-        if values[2] == '':
-            values[2] = Rent_info[0][3]
-        if values[3] == '':
-            values[3] = Rent_info[0][4]
-        if values[4] == '':
-            values[4] = Rent_info[0][5]
-        if values[5] == '':
-            values[5] = Rent_info[0][6]
-        if values[6] == '':
-            values[6] = Rent_info[0][7]
-        if values[7] == '':
-            values[7] = Rent_info[0][8]
-        if values[8] == '':
-            values[8] = Rent_info[0][9]
-        if values[9] == '':
-            values[9] = Rent_info[0][10]
-        if values[10] == '':
-            values[10] = Rent_info[0][11]
-        if values[11] == '':
-            values[11] = Rent_info[0][12]
-       
+            if values[0] == '':
+                values[0] = Rent_info[0][1]
+            if values[1] == '':
+                values[1] = Rent_info[0][2]
+            if values[2] == '':
+                values[2] = Rent_info[0][3]
+            if values[3] == '':
+                values[3] = Rent_info[0][4]
+            if values[4] == '':
+                values[4] = Rent_info[0][5]
+            if values[5] == '':
+                values[5] = Rent_info[0][6]
+            if values[6] == '':
+                values[6] = Rent_info[0][7]
+            if values[7] == '':
+                values[7] = Rent_info[0][8]
+            if values[8] == '':
+                values[8] = Rent_info[0][9]
+            if values[9] == '':
+                values[9] = Rent_info[0][10]
+            if values[10] == '':
+                values[10] = Rent_info[0][11]
+            if values[11] == '':
+                values[11] = Rent_info[0][12]
+        
 
-        con.execute('''UPDATE Πελάτης 
-                       SET  όνομα = '%s', 
-                            Επίθετο = '%s', 
-                            Δίπλωμα = '%s', 
-                            Φύλο = '%s', 
-                            Τηλέφωνο = '%s', 
-                            DoB = '%s', 
-                            email = '%s', 
-                            ΑΦΜ = '%s', 
-                            Πιστ_Κάρτα = '%s', 
-                            ΛογαριασμόςΤραπέζης = '%s',
-                            Δνση_Μόνιμης_Κατ = '%s',
-                            Status = '%s'
-                       WHERE  Πελάτης.ID = '%s';''' % (values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8], values[9],values[10],values[11],ClientID))								
-           
-        con.commit()	
+            con.execute('''UPDATE Πελάτης 
+                        SET  όνομα = '%s', 
+                                Επίθετο = '%s', 
+                                Δίπλωμα = '%s', 
+                                Φύλο = '%s', 
+                                Τηλέφωνο = '%s', 
+                                DoB = '%s', 
+                                email = '%s', 
+                                ΑΦΜ = '%s', 
+                                Πιστ_Κάρτα = '%s', 
+                                ΛογαριασμόςΤραπέζης = '%s',
+                                Δνση_Μόνιμης_Κατ = '%s',
+                                Status = '%s'
+                        WHERE  Πελάτης.ID = '%s';''' % (values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8], values[9],values[10],values[11],ClientID))								
+            
+            con.commit()	
     
 
     window.close()
@@ -1127,7 +1127,7 @@ def Statistics():
                 [sg.Button("Μηνιαίες κρατήσεις, τελευταίου έτους", key="montlyRentals", size=(40,	1))],
                 [sg.Button("Ποσοστό μηνιαίων ακυρώσεων, τελευταίου έτους", key="MonthyCancelations", size=(40,	1))],
                 [sg.Button("Μηνιαία κέρδη ανά έτος", key="MontlhyEarnings", size=(40,	1))]]
-    window = sg.Window("Main Window", layout)
+    window = sg.Window("Στατιστικά", layout)
     while True:
         event, values = window.read()
         if event == "Exit" or event == sg.WIN_CLOSED:
@@ -1156,11 +1156,11 @@ def avgMileage():
     Rent_info = Rent.fetchall()
 
     # All the stuff inside your window.
-    layout = [  [sg.Text('Μέσα χλμ ανά Ενοικίαση %s km' % Rent_info[0][0])],
+    layout = [  [sg.Text('Μέσα χλμ ανά Ενοικίαση %.2f km' % Rent_info[0][0])],
                 [sg.Button('ΟΚ')],
                 ]
     # Create the Window
-    window = sg.Window('Ενοικίαση', layout)
+    window = sg.Window('Μέσα χλμ ανά Ενοικίαση', layout)
     
     # Event Loop to process "events" and get the "values" of the inputs
     while True:
@@ -1177,11 +1177,11 @@ def avgRental():
     Rent_info = Rent.fetchall()
 
     # All the stuff inside your window.
-    layout = [  [sg.Text('Μέσος Χρόνος Ενοικίασης %s ημέρες' % Rent_info[0][0])],
+    layout = [  [sg.Text('Μέσος Χρόνος Ενοικίασης %.2f ημέρες' % Rent_info[0][0])],
                 [sg.Button('ΟΚ')],
                 ]
     # Create the Window
-    window = sg.Window('Ενοικίαση', layout)
+    window = sg.Window('Μέσος Χρόνος Ενοικίασης', layout)
     
     # Event Loop to process "events" and get the "values" of the inputs
     while True:
@@ -1204,16 +1204,24 @@ def avgCarCat():
                     graph_bottom_left=(-20, -20),
                     graph_top_right=(110, 110),
                     background_color='#F1D7AB',
-                    key='graph')]]
+                    key='graph')],
+                	[sg.Text('', size=(14,	1)),
+                    sg.Text('%s' %  Rent_info[0][0], size=(8,	1)),
+                    sg.Text('%s' %  Rent_info[1][0], size=(8,	1)),
+                    sg.Text('%s' %  Rent_info[2][0], size=(8,	1)),
+                    sg.Text('%s' %  Rent_info[3][0], size=(8,	1)),
+                    sg.Text('%s' %  Rent_info[4][0], size=(8,	1)),
+                    sg.Text('%s' %  Rent_info[5][0], size=(5,	1))]
+                    ]
     window = sg.Window('Ποια κατηγορία οχημάτων προτιμάται', layout,
                    grab_anywhere=True,
                    finalize=True)
     graph = window['graph']
-    dataSize = 2
+    dataSize = 6
     dataRangeMin = 0
     dataRangeMax = 100
 
-    xData =[(Rent_info[0][2] / Rent_info[0][3])*100,(Rent_info[1][2] / Rent_info[1][3])*100]
+    xData =[(Rent_info[0][2] / Rent_info[0][3])*100,(Rent_info[1][2] / Rent_info[1][3])*100,(Rent_info[2][2] / Rent_info[2][3])*100,(Rent_info[3][2] / Rent_info[3][3])*100,(Rent_info[4][2] / Rent_info[4][3])*100,(Rent_info[5][2] / Rent_info[5][3])*100]
 
     # METHODS
 
@@ -1251,14 +1259,14 @@ def avgCarCat():
 
 def monthlyRentals():
     Rent = con.cursor()
-    Rent.execute('''SELECT count() as rentals, STRFTIME("%m-%Y", ΠραγματΗμΠαραλ) AS year_month
+    Rent.execute('''SELECT count() as rentals, STRFTIME("%Y-%m", ΠραγματΗμΠαραλ) AS year_month
                     from Ενοικίαση
                     GROUP By year_month
                     order by year_month DESC
-                    limit 3;''' )    ## αλλαγη το λιμιτ σε 12
+                    limit 12;''' )    ## αλλαγη το λιμιτ σε 12
     Rent_info = Rent.fetchall()
     RentalSumYear =0
-    for i in range(3):
+    for i in range(12):
         RentalSumYear = RentalSumYear + Rent_info[i][0]
     print(RentalSumYear)
     sg.theme('DarkAmber') 
@@ -1266,16 +1274,21 @@ def monthlyRentals():
                     graph_bottom_left=(-20, -20),
                     graph_top_right=(110, 110),
                     background_color='#F1D7AB',
-                    key='graph')]]
+                    key='graph')],
+                    [sg.Text('', size=(9,	1)),
+                    sg.Text('%s' % Rent_info[0][1], size=(22,	1)),
+                    sg.Text('%s' % Rent_info[5][1], size=(27,	1)),
+                    sg.Text('%s' % Rent_info[11][1], size=(10,	1))]
+                    ]
     window = sg.Window('Μηνιαίες κρατήσεις, τελευταίου έτους', layout,
                    grab_anywhere=True,
                    finalize=True)
     graph = window['graph']
-    dataSize = 3  ##change se 12
+    dataSize = 12  ##change se 12
     dataRangeMin = 0
     dataRangeMax = 100
 
-    xData =[(Rent_info[0][0] / RentalSumYear)*100,(Rent_info[1][0]/ RentalSumYear)*100,(Rent_info[2][0]/ RentalSumYear)*100]
+    xData =[(Rent_info[0][0] / RentalSumYear)*100,(Rent_info[1][0]/ RentalSumYear)*100,(Rent_info[2][0]/ RentalSumYear)*100,(Rent_info[3][0]/ RentalSumYear)*100,(Rent_info[4][0]/ RentalSumYear)*100,(Rent_info[5][0]/ RentalSumYear)*100,(Rent_info[6][0]/ RentalSumYear)*100,(Rent_info[7][0]/ RentalSumYear)*100,(Rent_info[8][0]/ RentalSumYear)*100,(Rent_info[9][0]/ RentalSumYear)*100,(Rent_info[10][0]/ RentalSumYear)*100,(Rent_info[11][0]/ RentalSumYear)*100]
 
     # METHODS
 
@@ -1310,36 +1323,37 @@ def monthlyRentals():
     drawAxis()
     drawPlot()
     drawTicks(20)
-
-##pending  
+ 
 def MonthyCancelations():
     print("monthly cancellations")
     Rent = con.cursor()
-    Rent.execute('''SELECT count() as rentals, STRFTIME("%m-%Y", ΠραγματΗμΠαραλ) AS year_month
-                    from Ενοικίαση
-                    GROUP By year_month
+    Rent.execute('''SELECT 100.0-(100.0 * (COUNT(*) - COUNT(Ημ_Ακύρωσης)) / COUNT(*)) AS Column1Percent,STRFTIME("%Y-%m", ΠραγματΗμΠαραλ) AS year_month
+                    FROM Ενοικίαση
+                    GROUP By year_month 
                     order by year_month DESC
-                    limit 3;''' )    ## αλλαγη το λιμιτ σε 12
+                    limit 12''' )    ## αλλαγη το λιμιτ σε 12
     Rent_info = Rent.fetchall()
-    RentalSumYear =0
-    for i in range(3):
-        RentalSumYear = RentalSumYear + Rent_info[i][0]
-    print(RentalSumYear)
+    
     sg.theme('DarkAmber') 
     layout = [[sg.Graph(canvas_size=(600, 600),
                     graph_bottom_left=(-20, -20),
                     graph_top_right=(110, 110),
                     background_color='#F1D7AB',
-                    key='graph')]]
-    window = sg.Window('Μηνιαίες ακυρώσεισ (ποσοστό), τελευταίου έτους', layout,
+                    key='graph')],
+                    [sg.Text('', size=(9,	1)),
+                    sg.Text('%s' % Rent_info[0][1], size=(22,	1)),
+                    sg.Text('%s' % Rent_info[5][1], size=(27,	1)),
+                    sg.Text('%s' % Rent_info[11][1], size=(10,	1))]
+                    ]
+    window = sg.Window('Μηνιαίες ακυρώσεις (ποσοστό), τελευταίου έτους', layout,
                    grab_anywhere=True,
                    finalize=True)
     graph = window['graph']
-    dataSize = 3  ##change se 12
+    dataSize = 12  ##change se 12
     dataRangeMin = 0
     dataRangeMax = 100
 
-    xData =[(Rent_info[0][0] / RentalSumYear)*100,(Rent_info[1][0]/ RentalSumYear)*100,(Rent_info[2][0]/ RentalSumYear)*100]
+    xData =[Rent_info[0][0] ,Rent_info[1][0],Rent_info[2][0],Rent_info[3][0],Rent_info[4][0],Rent_info[5][0],Rent_info[6][0],Rent_info[7][0],Rent_info[8][0],Rent_info[9][0],Rent_info[10][0],Rent_info[11][0]]
 
     # METHODS
 
@@ -1378,13 +1392,14 @@ def MonthyCancelations():
 def MonthyEarnings():
     print("montlyh earnings")
     Rent = con.cursor()
-    Rent.execute('''SELECT sum(Κόστος) as earnings,STRFTIME("%m-%Y", ΠραγματΗμΠαραλ) AS year_month
+    Rent.execute('''SELECT sum(Κόστος) as earnings,STRFTIME("%Y-%m", ΠραγματΗμΠαραλ) AS year_month
                     from Ενοικίαση
                     GROUP By year_month
-                    limit 3;''' )    ## αλλαγη το λιμιτ σε 12
+					order by year_month DESC
+                    limit 12;''' )    ## αλλαγη το λιμιτ σε 12
     Rent_info = Rent.fetchall()
     SumEarnings =0
-    for i in range(3):
+    for i in range(12):
         SumEarnings = SumEarnings + Rent_info[i][0]
     print(SumEarnings)
     sg.theme('DarkAmber') 
@@ -1392,16 +1407,23 @@ def MonthyEarnings():
                     graph_bottom_left=(-20, -20),
                     graph_top_right=(110, 110),
                     background_color='#F1D7AB',
-                    key='graph')]]
+                    key='graph')],
+                    [sg.Text('', size=(9,	1)),
+                    sg.Text('%s' % Rent_info[0][1], size=(22,	1)),
+                    sg.Text('%s' % Rent_info[5][1], size=(27,	1)),
+                    sg.Text('%s' % Rent_info[11][1], size=(10,	1))]
+                    ]
+
     window = sg.Window('Μηνιαία Έσοδα, τελευταίου έτους', layout,
                    grab_anywhere=True,
                    finalize=True)
     graph = window['graph']
-    dataSize = 3  ##change se 12
+    dataSize = 12  ##change se 12
     dataRangeMin = 0
     dataRangeMax = 100
 
-    xData =[(Rent_info[0][0] / SumEarnings)*100,(Rent_info[1][0]/ SumEarnings)*100,(Rent_info[2][0]/ SumEarnings)*100]
+
+    xData =[(Rent_info[0][0] / SumEarnings)*100,(Rent_info[1][0]/ SumEarnings)*100,(Rent_info[2][0]/ SumEarnings)*100,(Rent_info[3][0]/ SumEarnings)*100,(Rent_info[4][0]/ SumEarnings)*100,(Rent_info[5][0]/ SumEarnings)*100,(Rent_info[6][0]/ SumEarnings)*100,(Rent_info[7][0]/ SumEarnings)*100,(Rent_info[8][0]/ SumEarnings)*100,(Rent_info[9][0]/ SumEarnings)*100,(Rent_info[10][0]/ SumEarnings)*100,(Rent_info[11][0]/ SumEarnings)*100]
 
     # METHODS
 
@@ -1450,14 +1472,22 @@ def insurance():
                     graph_bottom_left=(-20, -20),
                     graph_top_right=(110, 110),
                     background_color='#F1D7AB',
-                    key='graph')]]
+                    key='graph')],
+                	[sg.Text('', size=(20,	1)),
+                    sg.Text('%s' %  Rent_info[0][0], size=(17,	1)),
+                    sg.Text('%s' %  Rent_info[1][0], size=(17,	1)),
+                    sg.Text('%s' %  Rent_info[2][0], size=(10,	1))]
+                    ]
     window = sg.Window('Ποια κατηγορία ασφάλειας προτιμάται', layout,
                    grab_anywhere=True,
                    finalize=True)
     graph = window['graph']
     dataSize = 3
+
     dataRangeMin = 0
     dataRangeMax = 100
+    
+    
 
     xData =[(Rent_info[0][2] / Rent_info[0][3])*100,(Rent_info[1][2] / Rent_info[1][3])*100,(Rent_info[2][2] / Rent_info[2][3])*100]
 
@@ -1489,12 +1519,12 @@ def insurance():
                                 bottom_right=(i*barStep+barStep, 0),
                                 fill_color='#B6B6B6')
 
-
+    
     # CALL METHODS:
     drawAxis()
     drawPlot()
     drawTicks(20)
-
+  
 def main():
     sg.theme('DarkAmber')   # Add a touch of color
     layout = [  [sg.Button("Εισαγωγή Στοιχέιων Πελάτη", key="ImportClient", size=(40,	1))], 
